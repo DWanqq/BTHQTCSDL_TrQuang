@@ -39,23 +39,23 @@ Hệ thống hỗ trợ:
 
 # 2. Flow hoạt động hệ thống
 
-Khách hàng  
-    ↓  
-Tạo hợp đồng  
-    ↓  
-Thêm tài sản  
-    ↓  
-Tính lãi theo ngày  
-    ↓  
-Khách trả tiền  
-    ↓  
-Ghi log thanh toán  
-    ↓  
-Cập nhật dư nợ  
-    ↓  
-Quá hạn hợp đồng  
-    ↓  
-Thanh lý tài sản  
+                Khách hàng  
+                    ↓  
+                Tạo hợp đồng  
+                    ↓  
+                Thêm tài sản  
+                    ↓  
+            Tính lãi theo ngày  
+                    ↓  
+            Khách trả tiền  
+                    ↓  
+            Ghi log thanh toán  
+                    ↓  
+            Cập nhật dư nợ  
+                    ↓  
+            Quá hạn hợp đồng  
+                    ↓  
+            Thanh lý tài sản  
 
 ---
 

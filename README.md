@@ -34,26 +34,45 @@ Hệ thống hỗ trợ:
 # 2. Flow hoạt động hệ thống
 
 Khách hàng  
-↓  
+    ↓  
 Tạo hợp đồng  
-↓  
+    ↓  
 Thêm tài sản  
-↓  
+    ↓  
 Tính lãi theo ngày  
-↓  
+    ↓  
 Khách trả tiền  
-↓  
+    ↓  
 Ghi log thanh toán  
-↓  
+    ↓  
 Cập nhật dư nợ  
-↓  
+    ↓  
 Quá hạn hợp đồng  
-↓  
+    ↓  
 Thanh lý tài sản  
 
 ---
 
 # 3. Thiết kế cơ sở dữ liệu
+TẠO database
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/a91c8ab4-acf7-4873-9a21-a7bfb798c837" />
+
+
+## Tạo bảng dữ liệu
+
+Hệ thống sử dụng các bảng:
+- KhachHang
+- HopDong
+- TaiSan
+- ThanhToan
+- HopDong_TaiSan
+
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/b837a0a8-db1c-4fef-86b9-5259218bf5b2" />
+
+
+tạo dữ liệu
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/9ce101d1-d09d-4f25-920d-f62f1a90d20e" />
+
 
 ## 3.1 Bảng KhachHang
 
@@ -69,7 +88,10 @@ Bảng dùng để lưu thông tin khách hàng.
 
 ### Hình ảnh
 
-![image](screenshots/khachhang.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/42aea3b6-72e0-40d9-880a-74ebaead2d98" />
+
+
+
 
 ---
 
@@ -88,8 +110,9 @@ Bảng quản lý hợp đồng vay tiền.
 | Status | Trạng thái |
 
 ### Hình ảnh
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/ed7b8ccc-eef3-4d8a-8e7b-fccfef46748e" />
 
-![image](screenshots/hopdong.png)
+
 
 ---
 
@@ -106,8 +129,9 @@ Bảng quản lý tài sản cầm cố.
 | IsSold | Đã thanh lý |
 
 ### Hình ảnh
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/06944b6c-331e-4f7e-a13b-214d2aebf1a1" />
 
-![image](screenshots/taisan.png)
+
 
 ---
 
@@ -155,8 +179,9 @@ Trong đó:
 - n là số ngày quá hạn
 
 ### Hình ảnh
+<img width="1918" height="1077" alt="image" src="https://github.com/user-attachments/assets/7a361c00-29c5-4a23-9103-67bd79da8850" />
 
-![image](screenshots/function_calc.png)
+
 
 ---
 
@@ -172,8 +197,7 @@ Procedure dùng để:
 - liên kết tài sản với hợp đồng
 
 ### Hình ảnh
-
-![image](screenshots/create_contract.png)
+<img width="1918" height="1075" alt="image" src="https://github.com/user-attachments/assets/e144c4c6-8910-42fd-8223-257efc8a1c9b" />
 
 ---
 

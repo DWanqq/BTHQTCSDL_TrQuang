@@ -5,10 +5,11 @@
 
 ## Thông tin sinh viên
 
-- Họ tên: Trần Quang
-- Lớp: K59KMT
-- Môn: Hệ quản trị CSDL
-
+Họ và tên: Trần Đình Quang
+Mã số sinh viên: K235480106057
+Lớp: K59KMT.K01 - Kỹ thuật Máy tính
+Trường: Đại học Kỹ thuật Công nghiệp Thái Nguyên (TNUT)
+Giảng viên hướng dẫn: Thầy Đỗ Duy Cốp
 ---
 
 # 1. Mô tả bài toán
@@ -86,7 +87,7 @@ Bảng dùng để lưu thông tin khách hàng.
 | CCCD | CCCD |
 | Address | Địa chỉ |
 
-### Hình ảnh
+
 
 <img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/42aea3b6-72e0-40d9-880a-74ebaead2d98" />
 
@@ -109,7 +110,6 @@ Bảng quản lý hợp đồng vay tiền.
 | Deadline2 | Hạn thanh lý |
 | Status | Trạng thái |
 
-### Hình ảnh
 <img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/ed7b8ccc-eef3-4d8a-8e7b-fccfef46748e" />
 
 
@@ -128,7 +128,7 @@ Bảng quản lý tài sản cầm cố.
 | AssetStatus | Trạng thái |
 | IsSold | Đã thanh lý |
 
-### Hình ảnh
+
 <img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/06944b6c-331e-4f7e-a13b-214d2aebf1a1" />
 
 
@@ -178,7 +178,7 @@ Trong đó:
 - r là lãi suất
 - n là số ngày quá hạn
 
-### Hình ảnh
+
 <img width="1918" height="1077" alt="image" src="https://github.com/user-attachments/assets/7a361c00-29c5-4a23-9103-67bd79da8850" />
 
 
@@ -196,7 +196,6 @@ Procedure dùng để:
 - thêm tài sản
 - liên kết tài sản với hợp đồng
 
-### Hình ảnh
 <img width="1918" height="1075" alt="image" src="https://github.com/user-attachments/assets/e144c4c6-8910-42fd-8223-257efc8a1c9b" />
 
 ---
@@ -218,41 +217,110 @@ Nếu trả hết:
 Nếu chưa trả hết:
 - cập nhật trạng thái “Đang trả góp”
 
-### Hình ảnh
 
-![image](screenshots/payment.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/1b43e222-8fd2-45eb-b75b-3215c2a5d3cf" />
+*Hình ảnh minh họa quá trình thực thi procedure sp_Payment để xử lý thanh toán cho hợp đồng cầm đồ.*
 
----
+Hệ thống thực hiện:
+- tính tổng công nợ
+- ghi nhận số tiền khách thanh toán
+- cập nhật dư nợ còn lại
 
-# 8. Audit Log
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/f4fca3a4-dc53-4835-adc8-eb966cf25fd6" />
+*Hình ảnh minh họa dữ liệu lịch sử thanh toán của khách hàng sau khi procedure được thực thi.*
 
-Bảng ThanhToan dùng để lưu:
+Hệ thống lưu:
+- mã thanh toán
+- số tiền thanh toán
 - ngày thanh toán
-- số tiền trả
 - người thu tiền
 
-Hệ thống giúp tránh mất dữ liệu giao dịch.
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/9fb7fcf8-bb6f-437d-b0cb-98cfc4fcc285" />
+*Hình ảnh minh họa quá trình cập nhật dư nợ và trạng thái hợp đồng sau khi khách hàng thanh toán.*
 
-### Hình ảnh
+Sau khi thanh toán:
+- RemainingDebt được giảm xuống
+- Status được cập nhật phù hợp với trạng thái thanh toán thực tế
 
-![image](screenshots/log_thanhtoan.png)
+Nếu khách chưa trả hết:
+- trạng thái sẽ là “Đang trả góp”
 
+Nếu khách đã trả đủ:
+- trạng thái sẽ là “Đã thanh toán”
+Dữ liệu này giúp theo dõi lịch sử giao dịch và quản lý công nợ chính xác hơn.
+---
+
+# 8. Event quá hạn hợp đồng
+
+Trigger:
+
+TRG_QuaHan
+
+Trigger được sử dụng để tự động cập nhật trạng thái hợp đồng khi khách hàng quá thời hạn thanh toán.
+
+Hệ thống sẽ:
+
+kiểm tra thời hạn thanh toán Deadline1
+xác định hợp đồng quá hạn
+tự động cập nhật trạng thái hợp đồng thành:
+“Quá hạn”
+
+Điều này giúp hệ thống:
+
+quản lý công nợ chính xác
+theo dõi khách hàng nợ xấu
+hỗ trợ thanh lý tài sản khi cần thiết
+
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/5f7e1320-28ee-4ad6-a865-6b4045786ac9" />
+*Ghi chú : TẠO TRIGGER*
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/3249bb0c-e36e-412f-a6f9-64641940c474" />
+*Hình ảnh minh họa quá trình cập nhật thời hạn thanh toán của hợp đồng để kiểm tra trigger quá hạn.*
+
+Hệ thống sẽ kiểm tra:
+- thời gian thanh toán
+- trạng thái hợp đồng
+- điều kiện quá hạn
+
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/a363ac0d-a131-4107-845d-c069cf494d95" />
+*Hình ảnh minh họa kết quả sau khi trigger TRG_QuaHan được kích hoạt.*
+
+Khi hợp đồng vượt quá thời hạn thanh toán:
+- trạng thái hợp đồng sẽ tự động chuyển thành “Quá hạn”
+
+Điều này giúp hệ thống tự động quản lý các hợp đồng nợ xấu hiệu quả hơn.
 ---
 
 # 9. Query nợ xấu
 
-Query dùng để hiển thị:
-- tên khách hàng
-- số ngày quá hạn
-- tổng nợ hiện tại
+Query được sử dụng để hiển thị danh sách khách hàng đang có hợp đồng quá hạn.
+
+Hệ thống sẽ hiển thị:
+
+tên khách hàng
+số điện thoại
+số ngày quá hạn
+tổng công nợ hiện tại
 
 Điều kiện:
-- quá Deadline1
-- chưa thanh toán
 
-### Hình ảnh
+hợp đồng vượt quá Deadline1
+khách hàng chưa hoàn tất thanh toán
 
-![image](screenshots/no_xau.png)
+Query này giúp:
+
+quản lý khách hàng nợ xấu
+theo dõi công nợ
+hỗ trợ xử lý thanh toán và thanh lý tài sản
+
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/ca94b576-11de-45be-b7d1-eca80144ab81" />
+*Hình ảnh minh họa kết quả truy vấn danh sách khách hàng có hợp đồng quá hạn thanh toán.*
+
+Hệ thống sẽ hiển thị:
+- thông tin khách hàng
+- số ngày quá hạn
+- tổng công nợ hiện tại
+
+Query này giúp theo dõi các hợp đồng nợ xấu và hỗ trợ quản lý công nợ hiệu quả hơn.
 
 ---
 
@@ -260,13 +328,36 @@ Query dùng để hiển thị:
 
 ## Trigger quá hạn
 
-Tự động chuyển:
-- Đang vay
-→ Quá hạn
+Trigger:
 
-### Hình ảnh
+TRG_QuaHan
 
-![image](screenshots/trigger_quahan.png)
+Trigger được sử dụng để tự động cập nhật trạng thái hợp đồng khi khách hàng vượt quá thời hạn thanh toán.
+
+Hệ thống sẽ tự động chuyển trạng thái:
+
+“Đang vay”
+→ “Quá hạn”
+
+khi:
+
+ngày hiện tại vượt quá Deadline1
+hợp đồng chưa hoàn tất thanh toán
+
+Điều này giúp:
+
+tự động quản lý hợp đồng nợ xấu
+giảm thao tác thủ công
+hỗ trợ theo dõi công nợ chính xác hơn
+
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/3bd28c91-89c8-4be7-a7c2-551481adc9ad" />
+*Hình ảnh minh họa quá trình cập nhật thời hạn thanh toán của hợp đồng để kiểm tra trigger quá hạn.*
+
+Hệ thống sẽ kiểm tra:
+- ngày đến hạn
+- trạng thái hợp đồng
+- điều kiện kích hoạt trigger
+
 
 ---
 
@@ -275,10 +366,16 @@ Tự động chuyển:
 Tự động chuyển:
 - Đã thanh lý
 → Đã bán thanh lý
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/0f91dfbb-e85c-4b17-9438-f82bd28c6216" />
 
-### Hình ảnh
 
-![image](screenshots/trigger_thanhly.png)
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/c6429402-afba-4d22-8ebe-85d95c834413" />
+Hình ảnh minh họa kết quả sau khi trigger TRG_QuaHan được kích hoạt.
+
+Khi hợp đồng vượt quá thời hạn thanh toán:
+- trạng thái hợp đồng sẽ tự động chuyển từ “Đang vay” sang “Quá hạn”
+
+Điều này giúp hệ thống quản lý các hợp đồng nợ xấu hiệu quả hơn.
 
 ---
 
@@ -291,7 +388,22 @@ Sau khi gia hạn:
 - Deadline2
 
 sẽ được cập nhật lại để tránh lãi kép.
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/9086ef2d-e91d-4dab-90ad-b65a8d500486" />
+Hình ảnh minh họa quá trình cập nhật trạng thái hợp đồng để kích hoạt trigger thanh lý tài sản.
 
+Khi hợp đồng chuyển sang trạng thái:
+- “Đã thanh lý”
+
+trigger sẽ tự động cập nhật trạng thái tài sản liên quan.
+
+<img width="1917" height="1078" alt="image" src="https://github.com/user-attachments/assets/d0707afb-309c-466b-ac39-bc67043af410" />
+Hình ảnh minh họa kết quả sau khi trigger TRG_ThanhLy được kích hoạt.
+
+Tài sản liên kết với hợp đồng sẽ:
+- được cập nhật trạng thái thành “Đã bán thanh lý”
+- đánh dấu IsSold = 1
+
+Điều này giúp hệ thống quản lý tài sản cầm cố chính xác và hiệu quả hơn.
 ---
 
 # 12. Kết luận

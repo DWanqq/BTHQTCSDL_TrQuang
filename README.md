@@ -6,10 +6,15 @@
 ## Thông tin sinh viên
 
 Họ và tên: Trần Đình Quang
+
 Mã số sinh viên: K235480106057
+
 Lớp: K59KMT.K01 - Kỹ thuật Máy tính
+
 Trường: Đại học Kỹ thuật Công nghiệp Thái Nguyên (TNUT)
+
 Giảng viên hướng dẫn: Thầy Đỗ Duy Cốp
+
 ---
 
 # 1. Mô tả bài toán

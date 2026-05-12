@@ -154,6 +154,8 @@ HopDong 1 --- N ThanhToan
 
 HopDong N --- N TaiSan  
 
+<img width="1908" height="1078" alt="image" src="https://github.com/user-attachments/assets/d0ca19ce-7de7-444a-872f-d8707e71e029" />
+
 ---
 
 # 5. Logic tính lãi

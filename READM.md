@@ -37,7 +37,7 @@ Hệ thống hỗ trợ:
 
 ---
 
-# 2. Flow hoạt động hệ thống
+# 2. Quy trình hoạt động của hệ thống
 
                 Khách hàng  
                     ↓  
@@ -160,30 +160,66 @@ HopDong N --- N TaiSan
 
 # 5. Logic tính lãi
 
-## 5.1 Lãi đơn
+Trong hệ thống quản lý cầm đồ, việc tính lãi đóng vai trò rất quan trọng trong quản lý công nợ khách hàng.
 
-Trước Deadline1 hệ thống tính lãi đơn.
-
-:contentReference[oaicite:0]{index=0}
-
-Trong đó:
-- G là tiền gốc
-- n là số ngày vay
+Hệ thống sử dụng hai hình thức tính lãi gồm:
+- lãi đơn
+- lãi kép
 
 ---
 
-## 5.2 Lãi kép
+## 5.1 Lãi đơn
 
-Sau Deadline1 hệ thống chuyển sang lãi kép.
+Trước thời hạn Deadline1 hệ thống sử dụng lãi đơn để tính tiền lãi theo số ngày vay thực tế.
 
+Công thức tính:
 
-::contentReference[oaicite:1]{index=1}
-
+TienLai = (TienGoc / 1000000) * 5000 * SoNgayVay
 
 Trong đó:
-- P là gốc + lãi đơn
-- r là lãi suất
+
+- TienGoc là số tiền khách vay
+- SoNgayVay là số ngày vay thực tế
+
+Ví dụ:
+
+Nếu khách vay:
+- 5.000.000 VNĐ
+- trong 10 ngày
+
+thì tiền lãi sẽ là:
+
+(5.000.000 / 1.000.000) * 5000 * 10 = 250.000 VNĐ
+
+Điều này giúp hệ thống dễ dàng tính công nợ theo ngày.
+
+---
+
+
+## 5.2 Lãi kép
+
+Sau khi vượt quá Deadline1, hợp đồng được xem là quá hạn và hệ thống chuyển sang lãi kép nhằm tăng công nợ theo thời gian.
+
+Công thức tính:
+
+A = P(1 + r)^n
+
+Trong đó:
+
+- P là tổng tiền gốc và lãi đơn
+- r là lãi suất quá hạn
 - n là số ngày quá hạn
+
+Lãi kép giúp:
+- tăng công nợ theo thời gian
+- hỗ trợ quản lý nợ xấu
+- giảm tình trạng khách hàng chậm thanh toán
+
+Hệ thống sử dụng Function:
+- fn_CalcMoneyContract
+
+để tự động tính tổng công nợ của khách hàng.
+Sau Deadline1 hệ thống chuyển sang lãi kép.
 
 
 <img width="1918" height="1077" alt="image" src="https://github.com/user-attachments/assets/7a361c00-29c5-4a23-9103-67bd79da8850" />
@@ -331,42 +367,9 @@ Query này giúp theo dõi các hợp đồng nợ xấu và hỗ trợ quản l
 
 ---
 
-# 10. Trigger tự động
-
-## Trigger quá hạn
-
-Trigger:
-
-TRG_QuaHan
-
-Trigger được sử dụng để tự động cập nhật trạng thái hợp đồng khi khách hàng vượt quá thời hạn thanh toán.
-
-Hệ thống sẽ tự động chuyển trạng thái:
-
-“Đang vay”
-→ “Quá hạn”
-
-khi:
-
-ngày hiện tại vượt quá Deadline1
-hợp đồng chưa hoàn tất thanh toán
-
-Điều này giúp:
-
-tự động quản lý hợp đồng nợ xấu
-giảm thao tác thủ công
-hỗ trợ theo dõi công nợ chính xác hơn
-
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/3bd28c91-89c8-4be7-a7c2-551481adc9ad" />
-*Hình ảnh minh họa quá trình cập nhật thời hạn thanh toán của hợp đồng để kiểm tra trigger quá hạn.*
-
-Hệ thống sẽ kiểm tra:
-- ngày đến hạn
-- trạng thái hợp đồng
-- điều kiện kích hoạt trigger
+# 10. Trigger thanh lý
 
 
----
 
 ## Trigger thanh lý
 
@@ -386,48 +389,48 @@ Khi hợp đồng vượt quá thời hạn thanh toán:
 
 ---
 
-# 11. Gia hạn hợp đồng
+# 11. Event quản lý thanh lý tài sản
 
-Hệ thống hỗ trợ gia hạn hợp đồng khi khách thanh toán toàn bộ tiền lãi hiện tại.
+Hệ thống sử dụng Trigger để tự động quản lý trạng thái hợp đồng và tài sản cầm cố khi hợp đồng bị quá hạn hoặc thanh lý.
 
-Sau khi gia hạn:
-- Deadline1
-- Deadline2
+Các chức năng chính gồm:
 
-sẽ được cập nhật lại để tránh lãi kép.
-<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/9086ef2d-e91d-4dab-90ad-b65a8d500486" />
-Hình ảnh minh họa quá trình cập nhật trạng thái hợp đồng để kích hoạt trigger thanh lý tài sản.
+- tự động chuyển trạng thái hợp đồng sang “Quá hạn”
+- tự động chuyển trạng thái tài sản sang “Sẵn sàng thanh lý”
+- tự động chuyển trạng thái tài sản sang “Đã bán thanh lý”
 
-Khi hợp đồng chuyển sang trạng thái:
-- “Đã thanh lý”
+Điều này giúp:
+- quản lý tài sản cầm cố hiệu quả hơn
+- giảm thao tác thủ công
+- hỗ trợ xử lý nợ xấu chính xác hơn
 
-trigger sẽ tự động cập nhật trạng thái tài sản liên quan.
+Ngoài ra hệ thống còn hỗ trợ theo dõi:
+- tình trạng hợp đồng
+- trạng thái tài sản
+- quá trình thanh lý tài sản trong cửa hàng cầm đồ
 
-<img width="1917" height="1078" alt="image" src="https://github.com/user-attachments/assets/d0707afb-309c-466b-ac39-bc67043af410" />
-Hình ảnh minh họa kết quả sau khi trigger TRG_ThanhLy được kích hoạt.
-
-Tài sản liên kết với hợp đồng sẽ:
-- được cập nhật trạng thái thành “Đã bán thanh lý”
-- đánh dấu IsSold = 1
-
-Điều này giúp hệ thống quản lý tài sản cầm cố chính xác và hiệu quả hơn.
 ---
 
 # 12. Kết luận
 
-Hệ thống đã thực hiện:
-- quản lý khách hàng
-- quản lý hợp đồng
-- quản lý tài sản
-- tính lãi đơn và lãi kép
-- thanh toán công nợ
-- lưu lịch sử giao dịch
-- quản lý nợ xấu
-- thanh lý tài sản
+Hệ thống quản lý cầm đồ được xây dựng bằng SQL Server nhằm hỗ trợ quản lý khách hàng, hợp đồng vay tiền, tài sản cầm cố và công nợ trong cửa hàng cầm đồ.
 
-Bài tập giúp hiểu rõ hơn về:
-- thiết kế CSDL
-- trigger
-- function
-- procedure
-- quản lý nghiệp vụ trong SQL Server
+Trong quá trình thực hiện bài tập đã xây dựng được:
+
+- cơ sở dữ liệu quan hệ
+- Function tính lãi
+- Procedure xử lý thanh toán
+- Trigger quản lý trạng thái hợp đồng và tài sản
+- Query theo dõi khách hàng nợ xấu
+
+Thông qua bài tập này giúp:
+
+- hiểu rõ hơn về thiết kế cơ sở dữ liệu
+- sử dụng Function, Procedure, Trigger và Query trong SQL Server
+- xây dựng được luồng xử lý dữ liệu theo mô hình thực tế
+
+Hệ thống giúp:
+
+- giảm thao tác thủ công
+- quản lý dữ liệu hiệu quả hơn
+- hỗ trợ theo dõi công nợ và tài sản chính xác hơn.
